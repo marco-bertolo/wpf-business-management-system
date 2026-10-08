@@ -1,0 +1,328 @@
+<UserControl x:Class="PapJoaoSimoes.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <UserControl.Resources>
+        <Style x:Key="MetricCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource SurfaceBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Padding" Value="16" />
+        </Style>
+
+        <Style x:Key="SectionCardStyle" TargetType="Border" BasedOn="{StaticResource MetricCardStyle}">
+            <Setter Property="Padding" Value="18" />
+        </Style>
+
+        <Style x:Key="RefreshButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="34" />
+            <Setter Property="Height" Value="34" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="ButtonBackground"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonBackground" Property="Background" Value="#D7ECE1" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="ButtonBackground" Property="Background" Value="#C7E2D4" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Disabled">
+        <Grid Margin="28">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="18" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="18" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Border Padding="14,9"
+                    BorderThickness="1"
+                    CornerRadius="6">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Background" Value="#E5F4EB" />
+                        <Setter Property="BorderBrush" Value="#B9E3CC" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding BaseDadosDisponivel}" Value="False">
+                                <Setter Property="Background" Value="#FCEBEC" />
+                                <Setter Property="BorderBrush" Value="#EEC8CB" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="DatabaseStatusIcon"
+                               Margin="0,0,10,0"
+                               VerticalAlignment="Center"
+                               FontFamily="Segoe MDL2 Assets"
+                               FontSize="15">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="{DynamicResource AccentBrush}" />
+                                <Setter Property="Text" Value="&#xE73E;" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding BaseDadosDisponivel}" Value="False">
+                                        <Setter Property="Foreground" Value="#B84444" />
+                                        <Setter Property="Text" Value="&#xEA39;" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center"
+                                   FontSize="12"
+                                   FontWeight="SemiBold"
+                                   Text="{Binding EstadoBaseDados}" />
+                        <TextBlock Margin="10,0,0,0"
+                                   VerticalAlignment="Center"
+                                   FontSize="11"
+                                   Foreground="{DynamicResource TextSecondaryBrush}"
+                                   Text="{Binding UltimaAtualizacao}" />
+                    </StackPanel>
+                    <Button Grid.Column="2"
+                            Command="{Binding AtualizarDashboardCommand}"
+                            Style="{StaticResource RefreshButtonStyle}"
+                            ToolTip="Atualizar dashboard">
+                        <TextBlock FontFamily="Segoe MDL2 Assets"
+                                   FontSize="14"
+                                   Foreground="{DynamicResource AccentBrush}"
+                                   Text="&#xE72C;" />
+                    </Button>
+                </Grid>
+            </Border>
+
+            <UniformGrid Grid.Row="2" Columns="4">
+                <Border Margin="0,0,7,0" Style="{StaticResource MetricCardStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <TextBlock FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" Text="Clientes ativos" />
+                            <TextBlock HorizontalAlignment="Right" FontFamily="Segoe MDL2 Assets" FontSize="16" Foreground="#4E8D77" Text="&#xE77B;" />
+                        </Grid>
+                        <TextBlock Grid.Row="1" Margin="0,10,0,0" FontSize="26" FontWeight="SemiBold" Text="{Binding ClientesAtivos}" />
+                    </Grid>
+                </Border>
+
+                <Border Margin="7,0" Style="{StaticResource MetricCardStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <TextBlock FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" Text="Produtos ativos" />
+                            <TextBlock HorizontalAlignment="Right" FontFamily="Segoe MDL2 Assets" FontSize="16" Foreground="#4E8D77" Text="&#xE71D;" />
+                        </Grid>
+                        <TextBlock Grid.Row="1" Margin="0,10,0,0" FontSize="26" FontWeight="SemiBold" Text="{Binding ProdutosAtivos}" />
+                    </Grid>
+                </Border>
+
+                <Border Margin="7,0" Style="{StaticResource MetricCardStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <TextBlock FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" Text="Vendas registadas" />
+                            <TextBlock HorizontalAlignment="Right" FontFamily="Segoe MDL2 Assets" FontSize="16" Foreground="#4E8D77" Text="&#xE719;" />
+                        </Grid>
+                        <TextBlock Grid.Row="1" Margin="0,10,0,0" FontSize="26" FontWeight="SemiBold" Text="{Binding TotalVendas}" />
+                    </Grid>
+                </Border>
+
+                <Border Margin="7,0,0,0" Style="{StaticResource MetricCardStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <TextBlock FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" Text="Total vendido" />
+                            <TextBlock HorizontalAlignment="Right"
+                                       FontFamily="Segoe UI"
+                                       FontSize="16"
+                                       FontWeight="SemiBold"
+                                       Foreground="#4E8D77"
+                                       Text="€" />
+                        </Grid>
+                        <TextBlock Grid.Row="1"
+                                   Margin="0,10,0,0"
+                                   FontSize="22"
+                                   FontWeight="SemiBold"
+                                   Text="{Binding TotalVendido, StringFormat={}{0:N2} €}" />
+                    </Grid>
+                </Border>
+            </UniformGrid>
+
+            <Grid Grid.Row="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="18" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Style="{StaticResource SectionCardStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="14" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock FontSize="15" FontWeight="SemiBold" Text="Vendas recentes" />
+                        <Grid Grid.Row="2">
+                            <ItemsControl x:Name="VendasRecentesList" ItemsSource="{Binding VendasRecentes}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Padding="0,10"
+                                                BorderBrush="#EDF1EF"
+                                                BorderThickness="0,0,0,1">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="58" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="90" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock VerticalAlignment="Center"
+                                                           FontSize="11"
+                                                           Foreground="{DynamicResource TextSecondaryBrush}"
+                                                           Text="{Binding VendaId, StringFormat=#\{0:D4\}}" />
+                                                <StackPanel Grid.Column="1" Margin="4,0,8,0">
+                                                    <TextBlock FontSize="12"
+                                                               FontWeight="SemiBold"
+                                                               Text="{Binding ClienteNome}"
+                                                               TextTrimming="CharacterEllipsis" />
+                                                    <TextBlock Margin="0,3,0,0"
+                                                               FontSize="10.5"
+                                                               Foreground="{DynamicResource TextSecondaryBrush}"
+                                                               Text="{Binding DataVenda, StringFormat={}{0:dd/MM/yyyy HH:mm}}" />
+                                                </StackPanel>
+                                                <TextBlock Grid.Column="2"
+                                                           HorizontalAlignment="Right"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="12"
+                                                           FontWeight="SemiBold"
+                                                           Text="{Binding Total, StringFormat={}{0:N2} €}" />
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="12"
+                                       Foreground="{DynamicResource TextSecondaryBrush}"
+                                       Text="Ainda não existem vendas.">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding HasItems, ElementName=VendasRecentesList}" Value="False">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="2" Style="{StaticResource SectionCardStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="14" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock FontSize="15" FontWeight="SemiBold" Text="Stock mais baixo" />
+                        <Grid Grid.Row="2">
+                            <ItemsControl x:Name="StockBaixoList" ItemsSource="{Binding ProdutosStockBaixo}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Padding="0,10"
+                                                BorderBrush="#EDF1EF"
+                                                BorderThickness="0,0,0,1">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel Margin="0,0,10,0">
+                                                    <TextBlock FontSize="12"
+                                                               FontWeight="SemiBold"
+                                                               Text="{Binding Descricao}"
+                                                               TextTrimming="CharacterEllipsis" />
+                                                    <TextBlock Margin="0,3,0,0"
+                                                               FontSize="10.5"
+                                                               Foreground="{DynamicResource TextSecondaryBrush}"
+                                                               Text="{Binding FornecedorNome}"
+                                                               TextTrimming="CharacterEllipsis" />
+                                                </StackPanel>
+                                                <Border Grid.Column="1"
+                                                        Padding="8,4"
+                                                        VerticalAlignment="Center"
+                                                        Background="#FFF3DF"
+                                                        CornerRadius="4">
+                                                    <TextBlock FontSize="11"
+                                                               FontWeight="SemiBold"
+                                                               Foreground="#A96014"
+                                                               Text="{Binding StockAtual, StringFormat={}{0} un.}" />
+                                                </Border>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="12"
+                                       Foreground="{DynamicResource TextSecondaryBrush}"
+                                       Text="Ainda não existem produtos.">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding HasItems, ElementName=StockBaixoList}" Value="False">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

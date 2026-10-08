@@ -1,0 +1,609 @@
+<UserControl x:Class="PapJoaoSimoes.Views.VendasView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="600"
+             d:DesignWidth="940">
+    <UserControl.Resources>
+        <Style x:Key="InputStyle" TargetType="TextBox">
+            <Setter Property="Height" Value="40" />
+            <Setter Property="Padding" Value="11,0" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Background" Value="#FCFDFC" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="InputBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5">
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                          Margin="{TemplateBinding Padding}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="InputBorder" Property="BorderBrush" Value="{DynamicResource AccentBrush}" />
+                                <Setter TargetName="InputBorder" Property="BorderThickness" Value="1.5" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="InputBorder" Property="Background" Value="#EFF3F1" />
+                                <Setter Property="Foreground" Value="#87938F" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="FormLabelStyle" TargetType="TextBlock">
+            <Setter Property="Margin" Value="0,0,0,6" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}" />
+        </Style>
+
+        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="40" />
+            <Setter Property="Padding" Value="16,0" />
+            <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="ButtonBorder"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="#278B59" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="#21784C" />
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#173A31" />
+                                <Setter TargetName="ButtonBorder" Property="BorderThickness" Value="2" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="#AFCBC0" />
+                                <Setter Property="Foreground" Value="#EDF5F1" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SecondaryButtonStyle" TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}">
+            <Setter Property="Background" Value="#EEF2F0" />
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="ButtonBorder"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="#E2E9E6" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="TableIconButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="32" />
+            <Setter Property="Height" Value="32" />
+            <Setter Property="Margin" Value="3,0" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="IconBackground"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="IconBackground" Property="Background" Value="#E8F4EE" />
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="IconBackground" Property="Background" Value="#DDEFE6" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ModernCheckBoxStyle" TargetType="CheckBox">
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border x:Name="CheckBorder"
+                                    Width="18"
+                                    Height="18"
+                                    HorizontalAlignment="Left"
+                                    Background="White"
+                                    BorderBrush="{DynamicResource BorderBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="3">
+                                <TextBlock x:Name="CheckIcon"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Segoe MDL2 Assets"
+                                           FontSize="11"
+                                           Foreground="White"
+                                           Text="&#xE73E;"
+                                           Visibility="Collapsed" />
+                            </Border>
+                            <ContentPresenter Grid.Column="1"
+                                              Margin="8,0,0,0"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="CheckBorder" Property="Background" Value="{DynamicResource AccentBrush}" />
+                                <Setter TargetName="CheckBorder" Property="BorderBrush" Value="{DynamicResource AccentBrush}" />
+                                <Setter TargetName="CheckIcon" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="CheckBorder" Property="BorderBrush" Value="#173A31" />
+                                <Setter TargetName="CheckBorder" Property="BorderThickness" Value="2" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="28">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="18" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                <TextBlock FontSize="17" FontWeight="SemiBold" Text="Lista de vendas" />
+                <TextBlock x:Name="TotalVendasText"
+                           Margin="0,4,0,0"
+                           FontSize="12"
+                           Foreground="{DynamicResource TextSecondaryBrush}"
+                           Text="{Binding TotalVendas}" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="2" HorizontalAlignment="Right" Orientation="Horizontal">
+                <Border x:Name="PesquisaContainer"
+                        Width="250"
+                        Height="40"
+                        Margin="0,0,10,0"
+                        Background="White"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="5">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="38" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="Segoe MDL2 Assets"
+                                   FontSize="14"
+                                   Foreground="{DynamicResource TextSecondaryBrush}"
+                                   Text="&#xE721;" />
+                        <TextBox x:Name="PesquisaTextBox"
+                                 Grid.Column="1"
+                                 Padding="0,0,8,0"
+                                 VerticalContentAlignment="Center"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 FontSize="12"
+                                 Text="{Binding TextoPesquisa, UpdateSourceTrigger=PropertyChanged}"
+                                 ToolTip="Pesquisar por código, cliente, funcionário ou data" />
+                        <TextBlock Grid.Column="1"
+                                   Margin="0,0,8,0"
+                                   VerticalAlignment="Center"
+                                   IsHitTestVisible="False"
+                                   FontSize="12"
+                                   Foreground="#8A9692"
+                                   Text="Pesquisar vendas...">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Text, ElementName=PesquisaTextBox}" Value="">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+                </Border>
+
+                <Button x:Name="NovaVendaButton"
+                        Command="{Binding NovaVendaCommand}"
+                        Style="{StaticResource PrimaryButtonStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="0,0,8,0"
+                                   VerticalAlignment="Center"
+                                   FontFamily="Segoe MDL2 Assets"
+                                   FontSize="13"
+                                   Foreground="White"
+                                   Text="&#xE710;" />
+                        <TextBlock VerticalAlignment="Center" Foreground="White" Text="Nova venda" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="16" />
+                <ColumnDefinition x:Name="FormularioColumn" Width="400" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0"
+                    Background="White"
+                    BorderBrush="{DynamicResource BorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="6"
+                    ClipToBounds="True">
+                <Grid>
+                <DataGrid x:Name="VendasDataGrid"
+                          ItemsSource="{Binding VendasFiltradas}"
+                          Style="{StaticResource AppTableDataGridStyle}"
+                          ColumnHeaderStyle="{StaticResource AppTableColumnHeaderStyle}"
+                          RowStyle="{StaticResource AppTableRowStyle}"
+                          CellStyle="{StaticResource AppTableCellStyle}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn x:Name="CodigoColumn" Width="72" Binding="{Binding VendaId}" Header="CÓDIGO" ElementStyle="{StaticResource AppTableCenteredTextStyle}" HeaderStyle="{StaticResource AppTableCenteredColumnHeaderStyle}" />
+                        <DataGridTextColumn x:Name="DataColumn" Width="126" Binding="{Binding DataVenda, StringFormat={}{0:dd/MM/yyyy HH:mm}}" Header="DATA" />
+                        <DataGridTextColumn x:Name="ClienteColumn" Width="240" MinWidth="150" Binding="{Binding ClienteNome}" Header="CLIENTE" />
+                        <DataGridTextColumn x:Name="FuncionarioColumn" Width="200" MinWidth="150" Binding="{Binding FuncionarioNome}" Header="FUNCIONÁRIO" />
+                        <DataGridTextColumn x:Name="TotalColumn" Width="100" Binding="{Binding Total, StringFormat={}{0:N2} €}" Header="TOTAL" ElementStyle="{StaticResource AppTableRightTextStyle}" HeaderStyle="{StaticResource AppTableRightColumnHeaderStyle}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                    <StackPanel HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                IsHitTestVisible="False">
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding HasItems, ElementName=VendasDataGrid}" Value="False">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                        <TextBlock HorizontalAlignment="Center"
+                                   FontFamily="Segoe MDL2 Assets"
+                                   FontSize="24"
+                                   Foreground="#88A399"
+                                   Text="&#xE719;" />
+                        <TextBlock Margin="0,12,0,0"
+                                   FontSize="13"
+                                   FontWeight="SemiBold"
+                                   Text="Nenhuma venda encontrada" />
+                        <TextBlock Margin="0,4,0,0"
+                                   FontSize="11"
+                                   Foreground="{DynamicResource TextSecondaryBrush}"
+                                   Text="Altera a pesquisa ou regista uma nova venda." />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <Border Grid.Column="2"
+                    Background="#FCFDFC"
+                    BorderBrush="{DynamicResource BorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="6">
+                <Grid Margin="22">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="14" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="18" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="38" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Width="34"
+                                    Height="34"
+                                    HorizontalAlignment="Left"
+                                    Background="{DynamicResource AccentSoftBrush}"
+                                    CornerRadius="5">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Segoe MDL2 Assets"
+                                           FontSize="15"
+                                           Foreground="{DynamicResource AccentBrush}"
+                                           Text="&#xE719;" />
+                            </Border>
+                            <StackPanel Grid.Column="1" Margin="8,0,0,0" VerticalAlignment="Center">
+                                <TextBlock FontSize="16"
+                                           FontWeight="SemiBold"
+                                           Text="Nova venda" />
+                                <TextBlock Margin="0,3,0,0"
+                                           FontSize="11"
+                                           Foreground="{DynamicResource TextSecondaryBrush}"
+                                           Text="Produtos e intervenientes" />
+                            </StackPanel>
+                    </Grid>
+
+                    <Border Grid.Row="2"
+                            Padding="10,8"
+                            Margin="0,0,0,14"
+                            CornerRadius="4">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Visibility" Value="Visible" />
+                                <Setter Property="Background" Value="#E5F4EB" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding MensagemVenda}" Value="">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding MensagemEhErro}" Value="True">
+                                        <Setter Property="Background" Value="#FCEBEC" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <TextBlock FontSize="11.5"
+                                   Text="{Binding MensagemVenda}"
+                                   TextWrapping="Wrap">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="#247348" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding MensagemEhErro}" Value="True">
+                                            <Setter Property="Foreground" Value="#A43B3B" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Border>
+
+                    <ScrollViewer Grid.Row="3"
+                                  VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Disabled">
+                        <StackPanel Margin="0,0,8,0">
+
+                            <TextBlock Style="{StaticResource FormLabelStyle}" Text="Cliente *" />
+                            <ComboBox AutomationProperties.Name="Selecionar cliente da venda"
+                                      Height="40"
+                                      Padding="10,0"
+                                      VerticalContentAlignment="Center"
+                                      Background="White"
+                                      BorderBrush="{DynamicResource BorderBrush}"
+                                      ToolTip="Selecionar cliente"
+                                      ItemsSource="{Binding ClientesAtivos}"
+                                      DisplayMemberPath="Nome"
+                                      SelectedItem="{Binding ClienteSelecionado}" />
+
+                            <TextBlock Margin="0,14,0,6" Style="{StaticResource FormLabelStyle}" Text="Funcionário *" />
+                            <ComboBox AutomationProperties.Name="Selecionar funcionário responsável pela venda"
+                                      Height="40"
+                                      Padding="10,0"
+                                      VerticalContentAlignment="Center"
+                                      Background="White"
+                                      BorderBrush="{DynamicResource BorderBrush}"
+                                      ToolTip="Selecionar funcionário"
+                                      ItemsSource="{Binding FuncionariosAtivos}"
+                                      DisplayMemberPath="Nome"
+                                      SelectedItem="{Binding FuncionarioSelecionado}" />
+
+                            <Border Height="1" Margin="0,18,0,18" Background="{DynamicResource BorderBrush}" />
+
+                            <TextBlock Style="{StaticResource FormLabelStyle}" Text="Produto *" />
+                            <ComboBox AutomationProperties.Name="Selecionar produto para adicionar à venda"
+                                      Height="40"
+                                      Padding="10,0"
+                                      VerticalContentAlignment="Center"
+                                      Background="White"
+                                      BorderBrush="{DynamicResource BorderBrush}"
+                                      ToolTip="Selecionar produto"
+                                      ItemsSource="{Binding ProdutosDisponiveis}"
+                                      DisplayMemberPath="Descricao"
+                                      SelectedItem="{Binding ProdutoSelecionado}" />
+
+                            <Grid Margin="0,10,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="90" />
+                                    <ColumnDefinition Width="10" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel>
+                                    <TextBlock Style="{StaticResource FormLabelStyle}" Text="Quantidade" />
+                                    <TextBox Style="{StaticResource InputStyle}"
+                                             Text="{Binding Quantidade, UpdateSourceTrigger=LostFocus}" />
+                                </StackPanel>
+                                <Button Grid.Column="2"
+                                        Margin="0,18,0,0"
+                                        Command="{Binding AdicionarProdutoCommand}"
+                                        Style="{StaticResource PrimaryButtonStyle}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Margin="0,0,8,0" FontFamily="Segoe MDL2 Assets" Foreground="White" Text="&#xE710;" />
+                                        <TextBlock Foreground="White" Text="Adicionar produto" />
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+
+                            <Border Height="190"
+                                    Margin="0,18,0,0"
+                                    Background="White"
+                                    BorderBrush="{DynamicResource BorderBrush}"
+                                    BorderThickness="1"
+                                    ClipToBounds="True"
+                                    CornerRadius="5">
+                                <Grid>
+                                    <DataGrid x:Name="LinhasVendaDataGrid"
+                                              ItemsSource="{Binding LinhasVenda}"
+                                              BorderThickness="0"
+                                              Style="{StaticResource AppCompactTableDataGridStyle}"
+                                              ColumnHeaderStyle="{StaticResource AppCompactTableColumnHeaderStyle}"
+                                              RowStyle="{StaticResource AppTableRowStyle}"
+                                              CellStyle="{StaticResource AppCompactTableCellStyle}">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Width="*"
+                                                                MinWidth="70"
+                                                                Binding="{Binding ProdutoDescricao}"
+                                                                Header="PRODUTO">
+                                                <DataGridTextColumn.ElementStyle>
+                                                    <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                                        <Setter Property="VerticalAlignment" Value="Center" />
+                                                        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                                                        <Setter Property="ToolTip" Value="{Binding ProdutoDescricao}" />
+                                                    </Style>
+                                                </DataGridTextColumn.ElementStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Width="44"
+                                                                Binding="{Binding Quantidade}"
+                                                                CellStyle="{StaticResource AppCompactTableNumericCellStyle}"
+                                                                ElementStyle="{StaticResource AppTableRightTextStyle}"
+                                                                Header="QTD."
+                                                                HeaderStyle="{StaticResource AppCompactTableRightColumnHeaderStyle}" />
+                                            <DataGridTextColumn Width="72"
+                                                                Binding="{Binding Subtotal, StringFormat={}{0:N2} €}"
+                                                                CellStyle="{StaticResource AppCompactTableNumericCellStyle}"
+                                                                ElementStyle="{StaticResource AppTableRightTextStyle}"
+                                                                Header="VALOR"
+                                                                HeaderStyle="{StaticResource AppCompactTableRightColumnHeaderStyle}" />
+                                            <DataGridTemplateColumn Width="40"
+                                                                    CellStyle="{StaticResource AppCompactTableActionCellStyle}"
+                                                                    HeaderStyle="{StaticResource AppCompactTableCenteredColumnHeaderStyle}">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Button Style="{StaticResource TableIconButtonStyle}"
+                                                                Command="{Binding DataContext.RemoverLinhaCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                                CommandParameter="{Binding}"
+                                                                ToolTip="Remover produto">
+                                                            <TextBlock FontFamily="Segoe MDL2 Assets" Foreground="#C94F4F" Text="&#xE711;" />
+                                                        </Button>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+
+                                    <StackPanel HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                IsHitTestVisible="False">
+                                        <StackPanel.Style>
+                                            <Style TargetType="StackPanel">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding HasItems, ElementName=LinhasVendaDataGrid}" Value="False">
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </StackPanel.Style>
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="19"
+                                                   Foreground="#88A399"
+                                                   Text="&#xE719;" />
+                                        <TextBlock Margin="0,7,0,0"
+                                                   FontSize="11.5"
+                                                   FontWeight="SemiBold"
+                                                   Text="Ainda sem produtos" />
+                                        <TextBlock Margin="0,3,0,0"
+                                                   FontSize="10"
+                                                   Foreground="{DynamicResource TextSecondaryBrush}"
+                                                   Text="Seleciona um produto e adiciona-o à venda." />
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+
+                            <Grid Margin="0,16,0,0">
+                                <TextBlock VerticalAlignment="Center"
+                                           FontSize="12"
+                                           FontWeight="SemiBold"
+                                           Text="Total da venda" />
+                                <TextBlock HorizontalAlignment="Right"
+                                           VerticalAlignment="Center"
+                                           FontSize="20"
+                                           FontWeight="SemiBold"
+                                           Foreground="{DynamicResource AccentBrush}"
+                                           Text="{Binding TotalVenda, StringFormat={}{0:N2} €}" />
+                            </Grid>
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <Grid Grid.Row="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="LimparVendaButton"
+                                Grid.Column="0"
+                                Command="{Binding LimparVendaCommand}"
+                                Style="{StaticResource SecondaryButtonStyle}"
+                                Content="Limpar" />
+                        <Button x:Name="RegistarVendaButton"
+                                Grid.Column="2"
+                                Command="{Binding RegistarVendaCommand}"
+                                Style="{StaticResource PrimaryButtonStyle}"
+                                Content="Registar venda" />
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>
+
+
+
+
+
+

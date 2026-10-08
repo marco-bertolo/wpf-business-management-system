@@ -1,0 +1,28 @@
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build output and restored packages
+[Bb]in/
+[Oo]bj/
+[Pp]ackages/
+[Tt]est[Rr]esult*/
+artifacts/
+
+# Local databases and lock files
+*.accdb
+*.laccdb
+
+# Local workspace files
+tmp/
+.impeccable.md
+
+# Logs and operating system files
+*.log
+Thumbs.db
+Desktop.ini
+.DS_Store
+

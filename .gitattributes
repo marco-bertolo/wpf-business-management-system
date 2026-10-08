@@ -1,0 +1,12 @@
+* text=auto
+
+*.cs text diff=csharp
+*.xaml text
+*.config text
+*.sql text
+*.md text
+*.resx text
+*.png binary
+*.ico binary
+*.accdb binary
+
